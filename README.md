@@ -42,12 +42,12 @@ Update .env file:
 3) copyToPath is where MP4 files are kept
 4) S3BucketName is the bucket name of S3. Default file permission is --acl public-read. You can change permisson in bbb-mp4.js > uploadToS3
 
-Setup S3
+Setup AWS CLI to upload to S3
 1) Install [AWS CLI Version 2](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 2) Configure AWS with this command: $ aws configure
 3) If needed, get S3 region name code from [here](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
 
-### Record meeting in WEBM format and convert to MP4
+### Record Meetings in MP4 and upload to S3
 
 ```sh
 node bbb-mp4 MEETING_ID
@@ -58,6 +58,13 @@ node bbb-mp4 MEETING_ID
 1) MEETING_ID is the internal meeting id of the recording that you want to convert into MP4. 
 2) The MP4 file of the given meeting id is kept in mp4 directory
 3) The command above will record meeting in webm format, convert to MP4 and upload to S3. 
+
+### Record Meetings in MP4 Bulk
+
+1) Install GNU Parallel: $sudo apt-get install parallel
+2) Create a file bbb-target-recordings.txt meeting ids of the recordigs that you want to convert into MP4. Here is one way to create list of meetings on 22 Sep that is to be converted into MP4: find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
+4) In case you are using Scalelite, change presentation directory to /mnt/scalelite-recordings/var/bigbluebutton/published/presentation/
+5) Now execute parallel command to convert in bulk: parallel -j 0 -a bbb-target-recordings.txt node bbb-mp4 
 
 
 ### Live recording
