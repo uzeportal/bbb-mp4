@@ -36,9 +36,9 @@ var options     = {
 }
 
 if(platform == "linux"){
-    options.executablePath = "/usr/bin/google-chrome"
+    options.executablePath = "/usr/bin/google-chrome";
 }else if(platform == "darwin"){
-    options.executablePath = "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+    options.executablePath = "/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome";
 }
 
 async function main() {
@@ -52,27 +52,28 @@ async function main() {
 
 	var meetingId = process.argv[2];
 	
-	var url = "https://cpp.lms-live1.in/playback/presentation/2.0/playback.html?meetingId=" + meetingId;	    
+	var url = playBackURL + meetingId;	    
 
-        var exportname = meetingId + '.webm';
+	//Chrome downloads video in webm format. So first download in webm format and then convert into MP4 using ffmpeg
+    var exportname = meetingId + '.webm';
 
-        var duration = 0;
+    var duration = 0;
 
-        var convert = true;
+    var convert = true;
 
-        browser = await puppeteer.launch(options)
-        const pages = await browser.pages()
+    browser = await puppeteer.launch(options);
+    const pages = await browser.pages();
 
-        page = pages[0]
+    page = pages[0]
 
-        page.on('console', msg => {
-            var m = msg.text();
-            //console.log('PAGE LOG:', m) // uncomment if you need
-        });
+    page.on('console', msg => {
+        var m = msg.text();
+        //console.log('PAGE LOG:', m) // uncomment if you need
+    });
 
-        await page._client.send('Emulation.clearDeviceMetricsOverride')
+    await page._client.send('Emulation.clearDeviceMetricsOverride')
 
-	await page._client.send('Page.setDownloadBehavior', {behavior: 'allow', downloadPath: '/root/bbb-recorder/download/' +meetingId})
+	await page._client.send('Page.setDownloadBehavior', {behavior: 'allow', downloadPath: copyFromPath + meetingId})
 
         // Catch URL unreachable error
         await page.goto(url, {waitUntil: 'networkidle2'}).catch(e => {
