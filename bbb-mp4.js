@@ -149,6 +149,8 @@ function convertAndCopy(filename){
     var copyFromPath = copyFromPath + onlyfileName[0];
     var mp4File = onlyfileName[0] + ".mp4";
     var copyTo = copyToPath + "/" + mp4File;
+    
+    console.log("copyFromPath: " + copyFromPath);
 
     var newestFile = glob.sync(copyFromPath + '/*webm').map(name => ({name, ctime: fs.statSync(name).ctime})).sort((a, b) => b.ctime - a.ctime)[0].name;
 
