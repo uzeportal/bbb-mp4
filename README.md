@@ -118,7 +118,8 @@ When you will run the command that time `Chrome` browser will be open in backgro
 
 ### Thanks to
 
-[puppetcam](https://github.com/muralikg/puppetcam). Most of the parts were copied from there.
+[puppetcam](https://github.com/muralikg/puppetcam).
 
 [Canvas-Streaming-Example](https://github.com/fbsamples/Canvas-Streaming-Example)
+
 [bbb-recorder](https://github.com/jibon57/bbb-recorder)
