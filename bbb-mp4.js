@@ -52,7 +52,9 @@ async function main() {
 
 	var meetingId = process.argv[2];
 	
-	var url = playBackURL + meetingId;	    
+	var url = playBackURL + meetingId;	   
+	
+	console.log("Fetching: " + url);
 
 	//Chrome downloads video in webm format. So first download in webm format and then convert into MP4 using ffmpeg
     var exportname = meetingId + '.webm';
