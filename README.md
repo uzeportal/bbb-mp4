@@ -41,6 +41,9 @@ npm install --ignore-scripts
 cp .env.example .env
 ```
 
+Update .env file:
+1) playBackURL is https://<domain>/playback/presentation/2.0/playback.html?meetingId= for default playback in BBB or https://<domain>/playback/presentation/2.3/ if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback)
+
 ### Recording export
 
 ```sh
