@@ -70,62 +70,62 @@ async function main() {
 
     page.on('console', msg => {
         var m = msg.text();
-        //console.log('PAGE LOG:', m) // uncomment if you need
+        console.log('PAGE LOG:', m) // uncomment if you need
     });
 
     await page._client.send('Emulation.clearDeviceMetricsOverride')
 
 	await page._client.send('Page.setDownloadBehavior', {behavior: 'allow', downloadPath: copyFromPath + meetingId})
 
-        // Catch URL unreachable error
-        await page.goto(url, {waitUntil: 'networkidle2'}).catch(e => {
-            console.error('Recording URL unreachable!');
-            process.exit(2);
-        })
-        await page.setBypassCSP(true)
+    // Catch URL unreachable error
+    await page.goto(url, {waitUntil: 'networkidle2'}).catch(e => {
+        console.error('Recording URL unreachable!');
+        process.exit(2);
+    })
+    await page.setBypassCSP(true)
 
-        // Check if recording exists (search "Recording not found" message)
-        var loadMsg = await page.evaluate(() => {
-            return document.getElementById("load-msg").textContent;
-        });
-        if(loadMsg == "Recording not found"){
-            console.warn("Recording not found!");
-            process.exit(1);
-        }
+    // Check if recording exists (search "Recording not found" message)
+    var loadMsg = await page.evaluate(() => {
+        return document.getElementById("load-msg").textContent;
+    });
+    if(loadMsg == "Recording not found"){
+        console.warn("Recording not found!");
+        process.exit(1);
+    }
 
-        // Get recording duration
-        var recDuration = await page.evaluate(() => {
-            return document.getElementById("video").duration;
-        });
-        // If duration was set to 0 or is greater than recDuration, use recDuration value
-        if(duration == 0 || duration > recDuration){
-            duration = recDuration;
-        }
+    // Get recording duration
+    var recDuration = await page.evaluate(() => {
+        return document.getElementById("video").duration;
+    });
+    // If duration was set to 0 or is greater than recDuration, use recDuration value
+    if(duration == 0 || duration > recDuration){
+        duration = recDuration;
+    }
 
-        await page.waitForSelector('button[class=acorn-play-button]');
-        await page.$eval('#navbar', element => element.style.display = "none");
-        await page.$eval('#copyright', element => element.style.display = "none");
-        await page.$eval('.acorn-controls', element => element.style.opacity = "0");
-        await page.click('button[class=acorn-play-button]', {waitUntil: 'domcontentloaded'});
+    await page.waitForSelector('button[class=acorn-play-button]');
+    await page.$eval('#navbar', element => element.style.display = "none");
+    await page.$eval('#copyright', element => element.style.display = "none");
+    await page.$eval('.acorn-controls', element => element.style.opacity = "0");
+    await page.click('button[class=acorn-play-button]', {waitUntil: 'domcontentloaded'});
 
-        await page.evaluate((x) => {
-            console.log("REC_START");
-            window.postMessage({type: 'REC_START'}, '*')
-        })
+    await page.evaluate((x) => {
+        console.log("REC_START");
+        window.postMessage({type: 'REC_START'}, '*')
+    })
 
-        // Perform any actions that have to be captured in the exported video
-        await page.waitFor((duration * 1000))
+    // Perform any actions that have to be captured in the exported video
+    await page.waitFor((duration * 1000))
 
-        await page.evaluate(filename=>{
-            window.postMessage({type: 'SET_EXPORT_PATH', filename: filename}, '*')
-            window.postMessage({type: 'REC_STOP'}, '*')
-        }, exportname)
+    await page.evaluate(filename=>{
+        window.postMessage({type: 'SET_EXPORT_PATH', filename: filename}, '*')
+        window.postMessage({type: 'REC_STOP'}, '*')
+    }, exportname)
 
 
-        // Wait for download of webm to complete
-        await page.waitForSelector('html.downloadComplete', {timeout: 0})
+    // Wait for download of webm to complete
+    await page.waitForSelector('html.downloadComplete', {timeout: 0})
 
-        convertAndCopy(exportname)
+    convertAndCopy(exportname)
 
     }catch(err) {
         console.log(err)
@@ -146,7 +146,7 @@ function convertAndCopy(filename){
     console.log("Starting conversion ...");
 
     var onlyfileName = filename.split(".webm");
-    var copyFromPath = "/root/bbb-recorder/download/" + onlyfileName[0];
+    var copyFromPath = copyFromPath + onlyfileName[0];
     var mp4File = onlyfileName[0] + ".mp4";
     var copyTo = copyToPath + "/" + mp4File;
 
