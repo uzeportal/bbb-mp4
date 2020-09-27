@@ -110,7 +110,7 @@ docker-compose up
 ```
 
 ### How it will work?
-When you will run the command that time `Chrome` browser will be open in background & visit the link to perform screen recording. So, if you have set 10 seconds then it will record 10 seconds only. Later it will give you file as webm or mp4.
+When you will run the command that time `Chrome` browser will be open in background & visit the link to perform screen recording in WEBM formar. After compeltion of recording, we use FFMEG to convert to MP4 and use AWS CLI3 to upload to S3.
 
 **Note: It will use extra CPU to process chrome & ffmpeg.**
 
@@ -121,3 +121,4 @@ When you will run the command that time `Chrome` browser will be open in backgro
 [puppetcam](https://github.com/muralikg/puppetcam). Most of the parts were copied from there.
 
 [Canvas-Streaming-Example](https://github.com/fbsamples/Canvas-Streaming-Example)
+[bbb-recorder](https://github.com/jibon57/bbb-recorder)
