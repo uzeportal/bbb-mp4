@@ -59,7 +59,7 @@ node bbb-mp4 MEETING_ID
 2) The MP4 file of the given meeting id is kept in mp4 directory
 3) The command above will record meeting in webm format, convert to MP4 and upload to S3. 
 
-### Record Meetings in MP4 Bulk
+### MP4 Meetings in Bulk
 
 1) Install GNU Parallel: $sudo apt-get install parallel
 2) Create a file bbb-target-recordings.txt meeting ids of the recordigs that you want to convert into MP4. Here is one way to create list of meetings on 22 Sep that is to be converted into MP4: find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
