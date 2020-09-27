@@ -43,7 +43,7 @@ cp .env.example .env
 
 Update .env file:
 1) playBackURL is https://<domain>/playback/presentation/2.0/playback.html?meetingId= for default playback of BBB 2.2.x or https://<domain>/playback/presentation/2.3/ if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback) that would be part of BBB 2.3
-2) By default Chrome downloads meeting recording in Downloads direcotry of the user or /tmp, when executed in the background. Hence, we explicetly set copyFromPath i.e. download location of webm so that bbb-mp4 can correctly read webm and proceed with conversion to MP4   
+2) By default Chrome downloads meeting recording in Downloads direcotry of the user or /tmp, when executed in the background. Hence, we explicetly set copyFromPath i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed conversion into MP4   
 
 ### Recording export
 
@@ -52,8 +52,6 @@ node bbb-mp4 MEETING_ID
 ```
 
 **Key Points**
-
-You can pass 4 args
 
 1) MEETING_ID is the internal meeting id of the recording that you want to convert into MP4. 
 2) The MP4 file of the given meeting id is kept in mp4 directory
