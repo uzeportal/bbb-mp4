@@ -61,6 +61,13 @@ node bbb-mp4 MEETING_ID
 
 ### MP4 Meetings in Bulk
 
+```sh
+apt-get install parallel
+find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
+parallel -j 0 -a bbb-target-recordings.txt node bbb-mp4
+aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
+```
+
 1) Install GNU Parallel: $sudo apt-get install parallel
 2) Create a file bbb-target-recordings.txt meeting ids of the recordigs that you want to convert into MP4. Here is one way to create list of meetings on 22 Sep that is to be converted into MP4: find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
 4) In case you are using Scalelite, change presentation directory to /mnt/scalelite-recordings/var/bigbluebutton/published/presentation/ in the find command above
