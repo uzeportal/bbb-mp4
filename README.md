@@ -38,7 +38,7 @@ cp .env.example .env
 
 Update .env file:
 1) playBackURL is https://<domain>/playback/presentation/2.0/playback.html?meetingId= for default playback of BBB 2.2.x or https://<domain>/playback/presentation/2.3/ if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback) that would be part of BBB 2.3
-2) By default Chrome downloads meeting recording in Downloads direcotry of the user or /tmp, when executed in the background. Hence, we explicetly set copyFromPath i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed conversion into MP4   
+2) By default Chrome downloads meeting recording in Downloads direcotry of the user or /tmp, when executed in the background. Hence, we explicetly set copyFromPath i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed with conversion into MP4   
 3) copyToPath is where MP4 files are kept
 4) S3BucketName is the bucket name of S3. Default file permission is --acl public-read. You can change permisson in bbb-mp4.js > uploadToS3
 
