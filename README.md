@@ -30,8 +30,8 @@ sudo apt-get install ffmpeg
 Clone the project first:
 
 ```javascript
-git clone https://github.com/jibon57/bbb-recorder
-cd bbb-recorder
+git clone https://github.com/manishkatyan/bbb-mp4.git
+cd bbb-mp4
 npm install --ignore-scripts
 cp .env.example .env
 ```
