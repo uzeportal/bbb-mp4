@@ -4,7 +4,7 @@ const fs = require('fs');
 const os = require('os');
 const homedir = os.homedir();
 const platform = os.platform();
-const { copyToPath, playbackFile } = require('./env');
+const { copyToPath, copyFromPath, playBackURL } = require('./env');
 const spawn = require('child_process').spawn;
 //Required to find the latest file (downloaded webm) in a directory
 const glob = require('glob');
