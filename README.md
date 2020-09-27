@@ -1,11 +1,6 @@
-# bbb-recorder
+# bbb-mp4
 
-Bigbluebutton recordings export to `webm` or `mp4` & live broadcasting. This is an example how I have implemented BBB recordings to distibutable file.
-
-1. Videos will be copy to `/var/www/bigbluebutton-default/record`. You can change value of `copyToPath` from `.env`.
-3. Can be converted to `mp4`. Default `webm`
-2. Specify bitrate to control quality of the exported video by adjusting `videoBitsPerSecond` property in `background.js`
-
+This app helps in recording a BigBlueButton meeting as MP4 video and upload to S3.
 
 ### Dependencies
 
@@ -35,26 +30,49 @@ sudo apt-get install ffmpeg
 Clone the project first:
 
 ```javascript
-git clone https://github.com/jibon57/bbb-recorder
-cd bbb-recorder
+git clone https://github.com/manishkatyan/bbb-mp4.git
+cd bbb-mp4
 npm install --ignore-scripts
 cp .env.example .env
 ```
 
-### Recording export
+Update .env file:
+1) playBackURL is https://<domain>/playback/presentation/2.0/playback.html?meetingId= for default playback of BBB 2.2.x or https://<domain>/playback/presentation/2.3/ if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback) that would be part of BBB 2.3
+2) By default Chrome downloads meeting recording in Downloads direcotry of the user or /tmp, when executed in the background. Hence, we explicetly set copyFromPath i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed conversion into MP4   
+3) copyToPath is where MP4 files are kept
+4) S3BucketName is the bucket name of S3. Default file permission is --acl public-read. You can change permisson in bbb-mp4.js > uploadToS3
+
+Setup AWS CLI to upload to S3
+1) Install [AWS CLI Version 2](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+2) Configure AWS with this command: $ aws configure
+3) If needed, get S3 region name code from [here](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
+
+### Record Meetings in MP4 and upload to S3
 
 ```sh
-node export.js "https://BBB_HOST/playback/presentation/2.0/playback.html?meetingId=MEETING_ID" meeting.webm 10 true
+node bbb-mp4 MEETING_ID
 ```
 
 **Options**
 
-You can pass 4 args
+1) MEETING_ID is the internal meeting id of the recording that you want to convert into MP4. 
+2) The MP4 file of the given meeting id is kept in mp4 directory
+3) The command above will record meeting in webm format, convert to MP4 and upload to S3. 
 
-1) BBB recording link (mandatory)
-2) (Optional) Export file name (should be `.webm` at end). You can use "MEETING_ID" (without `.webm`) to set the meeting ID as export name. Default: MEETING_ID
-3) (Optional) Duration of recording (in seconds). You can set it to 0 use the real duration of recording. Default: real duration of recording
-4) (Optional) Convert to mp4 or not (true for convert to mp4). Default: false
+### MP4 Meetings in Bulk
+
+```sh
+apt-get install parallel
+find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
+parallel -j 0 -a bbb-target-recordings.txt node bbb-mp4
+aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
+```
+
+1) Install GNU Parallel: $sudo apt-get install parallel
+2) Create a file bbb-target-recordings.txt meeting ids of the recordigs that you want to convert into MP4. Here is one way to create list of meetings on 22 Sep that is to be converted into MP4: find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
+4) In case you are using Scalelite, change presentation directory to /mnt/scalelite-recordings/var/bigbluebutton/published/presentation/ in the find command above
+5) Now execute parallel command to convert in bulk: parallel -j 0 -a bbb-target-recordings.txt node bbb-mp4 
+6) To ensure that all MP4 files are uploaded to S3, you can also sync-up mp4 files in video directory to to AWS S3 bucket:  aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
 
 
 ### Live recording
@@ -99,7 +117,7 @@ docker-compose up
 ```
 
 ### How it will work?
-When you will run the command that time `Chrome` browser will be open in background & visit the link to perform screen recording. So, if you have set 10 seconds then it will record 10 seconds only. Later it will give you file as webm or mp4.
+When you will run the command that time `Chrome` browser will be open in background & visit the link to perform screen recording in WEBM formar. After compeltion of recording, we use FFMEG to convert to MP4 and use AWS CLI3 to upload to S3.
 
 **Note: It will use extra CPU to process chrome & ffmpeg.**
 
@@ -107,6 +125,8 @@ When you will run the command that time `Chrome` browser will be open in backgro
 
 ### Thanks to
 
-[puppetcam](https://github.com/muralikg/puppetcam). Most of the parts were copied from there.
+[puppetcam](https://github.com/muralikg/puppetcam)
 
 [Canvas-Streaming-Example](https://github.com/fbsamples/Canvas-Streaming-Example)
+
+[bbb-recorder](https://github.com/jibon57/bbb-recorder)
