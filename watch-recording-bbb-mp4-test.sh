@@ -1,0 +1,8 @@
+#!/bin/bash
+
+DIRECTORY_TO_TEST="/mnt/scalelite-recordings/var/bigbluebutton/published"
+TEST_MEETING_ID="c05a853abf8d2a801cb1374e27291ed2bde70d75-1600502297937"
+
+cd $DIRECTORY_TO_TEST
+mv $DIRECTORY_TO_TEST/presentation/$TEST_MEETING_ID/ $DIRECTORY_TO_TEST
+mv $DIRECTORY_TO_TEST/$TEST_MEETING_ID $DIRECTORY_TO_TEST/presentation/
