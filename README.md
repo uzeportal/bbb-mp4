@@ -104,10 +104,6 @@ When you will run the command that time `Chrome` browser will be open in backgro
 **Note: It will use extra CPU to process chrome & ffmpeg.**
 
 
-## Looking for Bigbluebutton shared hosting?
-
-We are offering cheaper [Bigbluebutton Premium hosting](https://www.mynaparrot.com/classroom/bigbluebuttonservice) or Bigbluebutton installation/configuration/loadbalance service. You can send me email jibon[@]mynaparrot.com
-
 
 ### Thanks to
 
