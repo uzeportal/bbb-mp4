@@ -147,13 +147,13 @@ function convertAndCopy(filename){
     console.log("Starting conversion ...");
 
     var onlyfileName = filename.split(".webm");
-    var copyFromPath = copyFromPath + onlyfileName[0];
+    var copyFromPathForRecording = copyFromPath + onlyfileName[0];
     var mp4File = onlyfileName[0] + ".mp4";
     var copyTo = copyToPath + "/" + mp4File;
     
-    console.log("copyFromPath: " + copyFromPath);
+    console.log("copyFromPath: " + copyFromPathForRecording);
 
-    var newestFile = glob.sync(copyFromPath + '/*webm').map(name => ({name, ctime: fs.statSync(name).ctime})).sort((a, b) => b.ctime - a.ctime)[0].name;
+    var newestFile = glob.sync(copyFromPathForRecording + '/*webm').map(name => ({name, ctime: fs.statSync(name).ctime})).sort((a, b) => b.ctime - a.ctime)[0].name;
 
     var copyFrom = newestFile;	
 
@@ -197,8 +197,8 @@ function convertAndCopy(filename){
         if(code == 0)
         {
             console.log("Convertion done to here: " + copyTo)
-            fs.rmdirSync(copyFromPath, { recursive: true });		
-            console.log('successfully deleted ' + copyFromPath);
+            fs.rmdirSync(copyFromPathForRecording, { recursive: true });		
+            console.log('successfully deleted ' + copyFromPathForRecording);
 
 	    //uploadToS3(copyTo);
 	    console.log("Please upload to S3 manually: " + copyTo);
