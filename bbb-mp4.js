@@ -4,7 +4,7 @@ const fs = require('fs');
 const os = require('os');
 const homedir = os.homedir();
 const platform = os.platform();
-const { copyToPath, copyFromPath, playBackURL } = require('./env');
+const { copyToPath, copyFromPath, playBackURL, S3BucketName } = require('./env');
 const spawn = require('child_process').spawn;
 //Required to find the latest file (downloaded webm) in a directory
 const glob = require('glob');
@@ -192,14 +192,12 @@ function convertAndCopy(filename){
 
     ls.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
-        if(code == 0)
-        {
+        if(code == 0) {
             console.log("Convertion done to here: " + copyTo)
             fs.rmdirSync(copyFromPathForRecording, { recursive: true });		
             console.log('successfully deleted ' + copyFromPathForRecording);
 
-	    //uploadToS3(copyTo);
-	    console.log("Please upload to S3 manually: " + copyTo);
+            uploadToS3(copyTo);
         }
 
     });
@@ -208,7 +206,7 @@ function convertAndCopy(filename){
 
 function uploadToS3(fileName) {
   console.log("Starting S3 upload ...");
-  var cmd = 'aws s3 cp ' + fileName + ' s3://slate-recording --acl public-read';
+  var cmd = 'aws s3 cp ' + fileName + ' s3://' + S3BucketName + ' --acl public-read';
   exec(cmd, (err, stdout, stderr) => {
     if (err) {
       //some err occurred

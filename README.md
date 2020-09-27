@@ -46,13 +46,16 @@ Update .env file:
 2) By default Chrome downloads meeting recording in Downloads direcotry of the user or /tmp, when executed in the background. Hence, we explicetly set copyFromPath i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed conversion into MP4   
 3) copyToPath is where MP4 files are kept
 
+Setup S3
+1) Install [AWS CLI Version 2](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+
 ### Record meeting in WEBM format and convert to MP4
 
 ```sh
 node bbb-mp4 MEETING_ID
 ```
 
-**Key Points**
+**Options**
 
 1) MEETING_ID is the internal meeting id of the recording that you want to convert into MP4. 
 2) The MP4 file of the given meeting id is kept in mp4 directory
