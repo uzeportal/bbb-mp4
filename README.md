@@ -44,7 +44,7 @@ cp .env.example .env
 ### Recording export
 
 ```sh
-node export.js "https://BBB_HOST/playback/presentation/2.0/playback.html?meetingId=MEETING_ID" meeting.webm 10 true
+node bbb-mp4 MEETING_ID
 ```
 
 **Options**
