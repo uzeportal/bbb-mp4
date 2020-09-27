@@ -1,6 +1,6 @@
 # bbb-mp4
 
-This app helps in recording a BigBlueButton in MP4 format and upload to S3.
+This app helps in recording a BigBlueButton meeting as MP4 video and upload to S3.
 
 ### Dependencies
 
