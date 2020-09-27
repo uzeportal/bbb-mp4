@@ -75,6 +75,7 @@ async function main() {
 
     await page._client.send('Emulation.clearDeviceMetricsOverride')
 
+    //Set the download location of webm recordings. This is useful when you execute this script as background to record multiple recordings using parallel
 	await page._client.send('Page.setDownloadBehavior', {behavior: 'allow', downloadPath: copyFromPath + meetingId})
 
     // Catch URL unreachable error
