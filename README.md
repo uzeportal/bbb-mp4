@@ -1,11 +1,6 @@
-# bbb-recorder
+# bbb-mp4
 
-Bigbluebutton recordings export to `webm` or `mp4` & live broadcasting. This is an example how I have implemented BBB recordings to distibutable file.
-
-1. Videos will be copy to `/var/www/bigbluebutton-default/record`. You can change value of `copyToPath` from `.env`.
-3. Can be converted to `mp4`. Default `webm`
-2. Specify bitrate to control quality of the exported video by adjusting `videoBitsPerSecond` property in `background.js`
-
+This app helps in recording a BigBlueButton in MP4 format and upload to S3.
 
 ### Dependencies
 
@@ -49,6 +44,8 @@ Update .env file:
 
 Setup S3
 1) Install [AWS CLI Version 2](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+2) Configure AWS with this command: $ aws configure
+3) If needed, get S3 region name code from [here](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
 
 ### Record meeting in WEBM format and convert to MP4
 
@@ -60,6 +57,7 @@ node bbb-mp4 MEETING_ID
 
 1) MEETING_ID is the internal meeting id of the recording that you want to convert into MP4. 
 2) The MP4 file of the given meeting id is kept in mp4 directory
+3) The command above will record meeting in webm format, convert to MP4 and upload to S3. 
 
 
 ### Live recording
