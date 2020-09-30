@@ -75,6 +75,21 @@ aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
 6) By default, parallel will execute as many number of jobs as the number of CPU Cores. Keep -j as 0 so that parallel can execute as many jobs as needed in parallel
 7) To ensure that all MP4 files are uploaded to S3, you can also sync-up mp4 files in video directory to to AWS S3 bucket:  aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
 
+### Automate MP4 Conversion
+
+```sh
+apt-get install supervisor
+service supervisor restart
+cp watch-recording-bbb-mp4.conf /etc/supervisor/conf.d/watch-recording-bbb-mp4.conf
+supervisorctl reread
+supervisorctl update
+tail -f /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
+```
+
+1) Install [supervisor](https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps)
+2) Copy watch-recording-bbb-mp4.conf to /etc/supervisor/conf.d
+3) Inform Supervisor of our new program through the supervisorctl command. At this point our program should now be running to watch for any new meetings and we can check this is the case by looking at the output log file: /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
+4) You can test whether watch is working using the test script - watch-recording-bbb-mp4-test.sh - update DIRECTORY_TO_TEST and TEST_MEETING_ID as appropriate
 
 ### Live recording
 
