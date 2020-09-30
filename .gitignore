@@ -6,3 +6,8 @@ config.json
 .project
 .settings
 .env
+bbb-unprocessed-recordings.txt
+log/
+mp4/
+download/
+webm/

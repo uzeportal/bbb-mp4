@@ -13,6 +13,7 @@ const { exec } = require('child_process');
 
 var xvfb        = new Xvfb({
     silent: true,
+    timeout: 5000,	
     xvfb_args: ["-screen", "0", "1280x800x24", "-ac", "-nolisten", "tcp", "-dpi", "96", "+extension", "RANDR"]
 });
 var width       = 1280;
@@ -70,7 +71,7 @@ async function main() {
 
     page.on('console', msg => {
         var m = msg.text();
-        console.log('PAGE LOG:', m) // uncomment if you need
+        //console.log('PAGE LOG:', m) // uncomment if you need
     });
 
     await page._client.send('Emulation.clearDeviceMetricsOverride')
@@ -130,13 +131,12 @@ async function main() {
 
     }catch(err) {
         console.log(err)
+        
     } finally {
         page.close && await page.close()
         browser.close && await browser.close()
 
-        if(platform == "linux"){
-            xvfb.stopSync()
-        }
+        xvfb.stopSync()
     }
 }
 
@@ -197,7 +197,8 @@ function convertAndCopy(filename){
             fs.rmdirSync(copyFromPathForRecording, { recursive: true });		
             console.log('successfully deleted ' + copyFromPathForRecording);
 
-            uploadToS3(copyTo);
+            //uploadToS3(copyTo);
+	    console.log("Manually sync to S3");
         }
 
     });
