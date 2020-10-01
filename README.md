@@ -156,15 +156,15 @@ When you will run the command that time `Chrome` browser will be open in backgro
 
 Check-out the following projects to further extend features of BBB.
 
-**[bbb-twilio]**(https://github.com/manishkatyan/bbb-twilio)
+[**bbb-twilio**](https://github.com/manishkatyan/bbb-twilio)
 
 Integrate Twilio into BigBlueButton so that users can join a meeting with a dial-in number. You can get local numbers for almost all the countries. 
 
-**[bbb-customize]**(https://github.com/manishkatyan/bbb-customize)
+[**bbb-customize**](https://github.com/manishkatyan/bbb-customize)
 
 Keep all customizations of BigBlueButton server in apply-config.sh so that (1) all your BBB servers have same customizations without any errors, and (2) you don't lose them while upgrading.
 
-[**100 Questions on BBB**](https://higheredlab.com/bigbluebutton-guide/)
+[**100 most Googled Questions on BigBlueButton**](https://higheredlab.com/bigbluebutton-guide/)
 
 Everything you need to know about BigBlueButton including pricing, comparison with Zoom, Moodle integrations, scaling, and dozens of troubleshooting.
 
