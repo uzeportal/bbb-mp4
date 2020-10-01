@@ -19,4 +19,4 @@ echo "$n Unprocessed recording"
 echo "Removed existing recordings from $filename"
 
 echo "Starting MP4 conversion using GNU Parallel"
-parallel -j 3 --joblog log/parallel_mp4.log --resume-failed -a "$filename" node bbb-mp4 &
+parallel -j 2 --joblog log/parallel_mp4.log --resume-failed -a "$filename" node bbb-mp4 &
