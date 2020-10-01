@@ -1,6 +1,16 @@
 # bbb-mp4
 
-This app helps in recording a BigBlueButton meeting as MP4 video and upload to S3.
+This app convert a BigBlueButton recording into MP4 video and upload to S3.
+
+We have implemented several different ways to convert MP4 videos:
+1. Convert one file at a time by executing `node bbb-mp4 MEETING_ID`
+2. Convert in bulk from recording directory by executing `./bbb-mp4-bulk-parallel.sh`
+3. Convert in bulk from the given recording ids in a file by executing `./bbb-mp4-bulk-parallel-input-file.sh`
+4. Convert automatically as soon as recording is published. Follow the instructuin here to [setup supervisor](https://github.com/manishkatyan/bbb-mp4#automate-mp4-conversion).
+
+**How it works?**
+
+When you execute node bbb-mp4, Chrome browser is opened in the background with the BigBlueButton playback URL in a Virtual Screen Buffer, the recording is played and the screen is recorded WEBM format. After compeltion of recording, FFMEG is used to convert to MP4 and AWS CLI is used to upload to S3.
 
 ## Dependencies
 
