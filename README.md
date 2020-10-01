@@ -10,7 +10,7 @@ We have implemented several different ways to convert MP4 videos:
 
 **How it works?**
 
-When you execute node bbb-mp4, Chrome browser is opened in the background with the BigBlueButton playback URL in a Virtual Screen Buffer, the recording is played and the screen is recorded WEBM format. After compeltion of recording, FFMEG is used to convert to MP4 and AWS CLI is used to upload to S3.
+When you execute `node bbb-mp4`, Chrome browser is opened in the background with the BigBlueButton playback URL in a Virtual Screen Buffer, the recording is played and the screen is recorded WEBM format. After compeltion of recording, FFMEG is used to convert to MP4 and AWS CLI is used to upload to S3.
 
 ## Dependencies
 
@@ -47,14 +47,14 @@ cp .env.example .env
 ```
 
 Update .env file:
-1) playBackURL is https://<domain>/playback/presentation/2.0/playback.html?meetingId= for default playback of BBB 2.2.x or https://<domain>/playback/presentation/2.3/ if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback) that would be part of BBB 2.3
-2) By default Chrome downloads meeting recording in Downloads direcotry of the user or /tmp, when executed in the background. Hence, we explicetly set copyFromPath i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed with conversion into MP4   
-3) copyToPath is where MP4 files are kept
-4) S3BucketName is the bucket name of S3. Default file permission is --acl public-read. You can change permisson in bbb-mp4.js > uploadToS3
+1) playBackURL is `https://<domain>/playback/presentation/2.0/playback.html?meetingId=xxxx` for default playback of BBB 2.2.x or `https://<domain>/playback/presentation/2.3/xxxx` if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback) that would be part of BBB 2.3
+2) By default Chrome downloads meeting recording in `Downloads` direcotry of the user or `/tmp`, when executed in the background. Hence, we explicetly set `copyFromPath` i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed with conversion into MP4   
+3) `copyToPath` is where MP4 files are kept
+4) `S3BucketName` is the bucket name of S3. Default file permission is `--acl public-read`. You can change permission in `bbb-mp4.js > uploadToS3`
 
 Setup AWS CLI to upload to S3
 1) Install [AWS CLI Version 2](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-2) Configure AWS with this command: $ aws configure
+2) Configure AWS with this command: `aws configure`
 3) If needed, get S3 region name code from [here](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
 
 ## Record Meetings in MP4 and upload to S3
@@ -65,9 +65,9 @@ node bbb-mp4 MEETING_ID
 
 ### Options
 
-1) MEETING_ID is the internal meeting id of the recording that you want to convert into MP4. 
-2) The MP4 file of the given meeting id is kept in mp4 directory
-3) The command above will record meeting in webm format, convert to MP4 and upload to S3. 
+1) `MEETING_ID` is the internal meeting id of the recording that you want to convert into MP4. 
+2) The MP4 file of the given meeting id is kept in `mp4` directory
+3) The command above will record meeting in WEBM format, convert to MP4 and upload to S3. 
 
 ## Convert MP4 in Bulk
 
@@ -77,7 +77,7 @@ apt-get install parallel
 
 We use [GNU Parallel](https://www.gnu.org/software/parallel/) to convert multiple MP4 recordings simultaneously. So Install GNU Parallel.  
 
-We will run 2 jobs simultaneously using Parallel that will pass recording-id to node bbb-mp4 to convert into MP4. Once any of the two jobs are completed, Parallel will pass the next recording-id to node bbb-mp4 to convert.
+We will run 2 jobs simultaneously using Parallel that will pass recording-id to node bbb-mp4 to convert into MP4. Once any of the two jobs are completed, Parallel will pass the next recording-id to `node bbb-mp4` to convert.
 
 One word of caution: Running 6-8 jobs in parallel may result in Xvfb through errors (unable to stop Xvfb). To be on a safer side, I prefer running two jobs in parallel.  
 
@@ -93,7 +93,7 @@ This method is useful when you are running bbb-mp4 on BigBlueButton or Scalelite
 
 Open file bbb-mp4-bulk-parallel.sh and verify from date, to date and recordings directory, which will be different for BigBlueButton and Scalelite. 
 
-Once you are ready, execute bbb-mp4-bulk-parallel.sh.
+Once you are ready, execute `bbb-mp4-bulk-parallel.sh`.
  
 
 ### Method 2: Convert MP4 from recording Ids listed in a file 
@@ -126,9 +126,9 @@ aws s3 sync mp4/ s3://S3_BUCKET_NAME  --acl public-read
 
 At times, you may not be sure which recordings are not converted to MP4 yet. 
 
-Put all the recordings that you want to verify into bbb-unprocessed-recordings.txt and execute s3-verify-recordings.sh. This script will check whether the recordings mentioned in bbb-unprocessed-recordings.txt are uploaded to S3. It will update bbb-unprocessed-recordings.txt with the recordings which are not already present on AWS S3.  
+Put all the recordings that you want to verify into `bbb-unprocessed-recordings.txt` and execute `s3-verify-recordings.sh`. This script will check whether the recording ids mentioned in `bbb-unprocessed-recordings.txt` are uploaded to AWS S3. It will update `bbb-unprocessed-recordings.txt` with the recordings which are not already present on AWS S3.  
 
-Now you can follow Method 2 above to convert recordings mentioned in the updated bbb-unprocessed-recordings.txt file. 
+Now you can follow Method 2 above to convert recordings mentioned in the updated `bbb-unprocessed-recordings.txt` file. 
 
 ## Automate MP4 Conversion
 
@@ -142,9 +142,9 @@ tail -f /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
 ```
 
 1) Install [supervisor](https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps)
-2) Copy watch-recording-bbb-mp4.conf to /etc/supervisor/conf.d
+2) Copy `watch-recording-bbb-mp4.conf` to `/etc/supervisor/conf.d`
 3) Inform Supervisor of our new program through the supervisorctl command. At this point our program should now be running to watch for any new meetings and we can check this is the case by looking at the output log file: /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
-4) You can test whether watch is working using the test script - watch-recording-bbb-mp4-test.sh - update DIRECTORY_TO_TEST and TEST_MEETING_ID as appropriate
+4) You can test whether watch is working using the test script - `watch-recording-bbb-mp4-test.sh` - update `DIRECTORY_TO_TEST` and `TEST_MEETING_ID` as appropriate
 
 
 ## More on BigBlueButton
