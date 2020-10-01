@@ -1,8 +1,18 @@
 # bbb-mp4
 
-This app helps in recording a BigBlueButton meeting as MP4 video and upload to S3.
+This app converts a BigBlueButton recording into MP4 video and upload to S3.
 
-### Dependencies
+We have implemented several different ways to convert MP4 videos:
+1. Convert one file at a time by executing `node bbb-mp4 MEETING_ID`
+2. Convert in bulk from recording directory by executing `./bbb-mp4-bulk-parallel.sh`
+3. Convert in bulk from the given recording ids in a file by executing `./bbb-mp4-bulk-parallel-input-file.sh`
+4. Convert automatically as soon as recording is published. Follow the instructions to [setup supervisor](https://github.com/manishkatyan/bbb-mp4#automate-mp4-conversion).
+
+**How it works?**
+
+When you execute `node bbb-mp4`, Chrome browser is opened in the background with the BigBlueButton playback URL in a Virtual Screen Buffer, the recording is played and the screen is recorded WEBM format. After compeltion of recording, FFMEG is used to convert to MP4 and AWS CLI is used to upload to S3.
+
+## Dependencies
 
 1. xvfb (`apt install xvfb`)
 2. Google Chrome stable
@@ -25,7 +35,7 @@ sudo apt-get update
 sudo apt-get install ffmpeg
 ```
 
-### Usage
+## Usage
 
 Clone the project first:
 
@@ -37,45 +47,92 @@ cp .env.example .env
 ```
 
 Update .env file:
-1) playBackURL is https://<domain>/playback/presentation/2.0/playback.html?meetingId= for default playback of BBB 2.2.x or https://<domain>/playback/presentation/2.3/ if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback) that would be part of BBB 2.3
-2) By default Chrome downloads meeting recording in Downloads direcotry of the user or /tmp, when executed in the background. Hence, we explicetly set copyFromPath i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed with conversion into MP4   
-3) copyToPath is where MP4 files are kept
-4) S3BucketName is the bucket name of S3. Default file permission is --acl public-read. You can change permisson in bbb-mp4.js > uploadToS3
+1) playBackURL is `https://<domain>/playback/presentation/2.0/playback.html?meetingId=xxxx` for default playback of BBB 2.2.x or `https://<domain>/playback/presentation/2.3/xxxx` if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback) that would be part of BBB 2.3
+2) By default Chrome downloads meeting recording in `Downloads` direcotry of the user or `/tmp`, when executed in the background. Hence, we explicetly set `copyFromPath` i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed with conversion into MP4   
+3) `copyToPath` is where MP4 files are kept
+4) `S3BucketName` is the bucket name of S3. Default file permission is `--acl public-read`. You can change permission in `bbb-mp4.js > uploadToS3`
 
 Setup AWS CLI to upload to S3
 1) Install [AWS CLI Version 2](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-2) Configure AWS with this command: $ aws configure
+2) Configure AWS with this command: `aws configure`
 3) If needed, get S3 region name code from [here](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
 
-### Record Meetings in MP4 and upload to S3
+## Record Meetings in MP4 and upload to S3
 
 ```sh
 node bbb-mp4 MEETING_ID
 ```
 
-**Options**
+### Options
 
-1) MEETING_ID is the internal meeting id of the recording that you want to convert into MP4. 
-2) The MP4 file of the given meeting id is kept in mp4 directory
-3) The command above will record meeting in webm format, convert to MP4 and upload to S3. 
+1) `MEETING_ID` is the internal meeting id of the recording that you want to convert into MP4. 
+2) The MP4 file of the given meeting id is kept in `mp4` directory
+3) The command above will record meeting in WEBM format, convert to MP4 and upload to S3. 
 
-### MP4 Meetings in Bulk
+## Convert MP4 in Bulk
 
 ```sh
 apt-get install parallel
-find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
-parallel -j 0 -a bbb-target-recordings.txt node bbb-mp4
-aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
 ```
 
-1) Install GNU Parallel: $sudo apt-get install parallel
-2) Create a file bbb-target-recordings.txt meeting ids of the recordigs that you want to convert into MP4. Here is one way to create list of meetings on 22 Sep that is to be converted into MP4: find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
-4) In case you are using Scalelite, change presentation directory to /mnt/scalelite-recordings/var/bigbluebutton/published/presentation/ in the find command above
-5) Now execute parallel command to convert in bulk: parallel -j 0 -a bbb-target-recordings.txt node bbb-mp4 
-6) By default, parallel will execute as many number of jobs as the number of CPU Cores. Keep -j as 0 so that parallel can execute as many jobs as needed in parallel
-7) To ensure that all MP4 files are uploaded to S3, you can also sync-up mp4 files in video directory to to AWS S3 bucket:  aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
+We use [GNU Parallel](https://www.gnu.org/software/parallel/) to convert multiple MP4 recordings simultaneously. So Install GNU Parallel.  
 
-### Automate MP4 Conversion
+We will run 2 jobs simultaneously using Parallel that will pass recording-id to node bbb-mp4 to convert into MP4. Once any of the two jobs are completed, Parallel will pass the next recording-id to `node bbb-mp4` to convert.
+
+**Pro Tips** 
+- Running 6-8 jobs in parallel may result in Xvfb through errors (unable to stop Xvfb). To be on a safer side, I prefer running two jobs in parallel.  
+- Keep an eye on zombie process for XVFB or Google Chrome when you run bulk processing of MP4 for some time. If you start seeing odd behaviors such recordings taking way too long to process or parallel or node process not running when you check `ps aux | grep parallel` or `ps aux | grep node`, then you may restart your server.  
+
+You have the following two methods:
+
+### Method 1: Convert MP4 from recordings in /published/presentation/ directory
+
+```sh
+./bbb-mp4-bulk-parallel.sh
+```
+
+This method is useful when you are running bbb-mp4 on BigBlueButton or Scalelite server. You can set from and to date to convert into MP4 recordings from the given date range.
+
+Open file bbb-mp4-bulk-parallel.sh and verify from date, to date and recordings directory, which will be different for BigBlueButton and Scalelite. 
+
+Once you are ready, execute `bbb-mp4-bulk-parallel.sh`.
+ 
+
+### Method 2: Convert MP4 from recording Ids listed in a file 
+
+```sh
+find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-unprocessed-recordings.txt
+
+./bbb-mp4-bulk-parallel-input-file.sh
+```
+
+This method is useful when you want to convert a list of recordings. For example, some recordings failed to get converted in the method 1 above and you want to convert only those recordings. Another example, you want to run MP4 conversion process on a different server - not on BigBlueButton or Scalelite server. 
+
+You need to prepare a list of recordings that you want to convert into MP4. For example you could use find command to create list of meetings on 22 Sep that is to be converted into MP4 as shown above. 
+
+Execute bbb-mp4-bulk-parallel-input-file.sh to start MP4 conversion with 2 jobs in parallel.
+
+## Upload to AWS S3
+
+```sh
+aws s3 sync mp4/ s3://S3_BUCKET_NAME  --acl public-read
+```
+
+In stead of uploading files one at a time, use aws s3 sync to upload MP4 files which have not been uploaded already to your AWS S3 bucket. 
+
+### Verify MP4 videos on AWS S3
+
+```sh
+./s3-verify-recordings.sh
+```
+
+At times, you may not be sure which recordings are not converted to MP4 yet. 
+
+Put all the recordings that you want to verify into `bbb-unprocessed-recordings.txt` and execute `s3-verify-recordings.sh`. This script will check whether the recording ids mentioned in `bbb-unprocessed-recordings.txt` are uploaded to AWS S3. It will update `bbb-unprocessed-recordings.txt` with the recordings which are not already present on AWS S3.  
+
+Now you can follow Method 2 above to convert recordings mentioned in the updated `bbb-unprocessed-recordings.txt` file. 
+
+## Automate MP4 Conversion
 
 ```sh
 apt-get install supervisor
@@ -87,59 +144,30 @@ tail -f /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
 ```
 
 1) Install [supervisor](https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps)
-2) Copy watch-recording-bbb-mp4.conf to /etc/supervisor/conf.d
+2) Copy `watch-recording-bbb-mp4.conf` to `/etc/supervisor/conf.d`
 3) Inform Supervisor of our new program through the supervisorctl command. At this point our program should now be running to watch for any new meetings and we can check this is the case by looking at the output log file: /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
-4) You can test whether watch is working using the test script - watch-recording-bbb-mp4-test.sh - update DIRECTORY_TO_TEST and TEST_MEETING_ID as appropriate
-
-### Live recording
-
-You can also use `liveJoin.js` to live join meeting as a recorder & perform recording like this:
-
-```sh
-node liveJoin.js "https://BBB_HOST/bigbluebutton/api/join?meetingId=MEETING_ID...." liveRecord.webm 0 true
-```
-Here `0` mean no limit. Recording will auto stop after meeting end or kickout of recorder user. You can also set time limit like this:
-
-```sh
-node liveJoin.js "https://BBB_HOST/bigbluebutton/api/join?meetingId=MEETING_ID...." liveRecord.webm 60 true
-```
-
-### Live RTMP broadcasting
-
-Sometime you may want to broadcast meeting via RTMP. To test you can use `ffmpegServer.js` to run websocket server & `liveRTMP.js` to join the meeting. You'll have to edit `rtmpUrl` & `ffmpegServer` info inside `.env` file (if need).
+4) You can test whether watch is working using the test script - `watch-recording-bbb-mp4-test.sh` - update `DIRECTORY_TO_TEST` and `TEST_MEETING_ID` as appropriate
 
 
-1) First run websocket server by `node ffmpegServer.js`
-2) Then in another terminal tab
+## More on BigBlueButton
 
-```sh
-node liveRTMP.js "https://BBB_HOST/bigbluebutton/api/join?meetingId=MEETING_ID...."
-```
-You can also set duration otherwise it will close after meeting end or kickout:
+Check-out the following projects to further extend features of BBB.
 
-```sh
-node liveRTMP.js "https://BBB_HOST/bigbluebutton/api/join?meetingId=MEETING_ID...." 20
-```
+[**bbb-twilio**](https://github.com/manishkatyan/bbb-twilio)
 
-Check the process of websocket server, `ffmpeg` should start sending data to RTMP server.
+Integrate Twilio into BigBlueButton so that users can join a meeting with a dial-in number. You can get local numbers for almost all the countries. 
 
-Alternatively, you can stream via a docker container:
+[**bbb-customize**](https://github.com/manishkatyan/bbb-customize)
 
-```
-# copy compose file, update the environment params and the meeting join url
-cp docker-compose.yml.livertmp-stream-example docker-compose.yml
-docker-compose build
-docker-compose up
-```
+Keep all customizations of BigBlueButton server in apply-config.sh so that (1) all your BBB servers have same customizations without any errors, and (2) you don't lose them while upgrading.
 
-### How it will work?
-When you will run the command that time `Chrome` browser will be open in background & visit the link to perform screen recording in WEBM formar. After compeltion of recording, we use FFMEG to convert to MP4 and use AWS CLI3 to upload to S3.
+[**100 Most Googled Questions on BigBlueButton**](https://higheredlab.com/bigbluebutton-guide/)
 
-**Note: It will use extra CPU to process chrome & ffmpeg.**
+Everything you need to know about BigBlueButton including pricing, comparison with Zoom, Moodle integrations, scaling, and dozens of troubleshooting.
 
+#### Inspired by
 
-
-### Thanks to
+bbb-mp4 project builds on the ideas from several other projects, especially:
 
 [puppetcam](https://github.com/muralikg/puppetcam)
 
