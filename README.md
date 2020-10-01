@@ -121,7 +121,7 @@ In stead of uploading files one at a time, use aws s3 sync to upload MP4 files w
 ### Verify MP4 videos on AWS S3
 
 ```sh
-aws s3 sync mp4/ s3://S3_BUCKET_NAME  --acl public-read
+./s3-verify-recordings.sh
 ```
 
 At times, you may not be sure which recordings are not converted to MP4 yet. 
