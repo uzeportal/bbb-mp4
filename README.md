@@ -2,7 +2,7 @@
 
 This app helps in recording a BigBlueButton meeting as MP4 video and upload to S3.
 
-### Dependencies
+## Dependencies
 
 1. xvfb (`apt install xvfb`)
 2. Google Chrome stable
@@ -25,7 +25,7 @@ sudo apt-get update
 sudo apt-get install ffmpeg
 ```
 
-### Usage
+## Usage
 
 Clone the project first:
 
@@ -47,19 +47,19 @@ Setup AWS CLI to upload to S3
 2) Configure AWS with this command: $ aws configure
 3) If needed, get S3 region name code from [here](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
 
-### Record Meetings in MP4 and upload to S3
+## Record Meetings in MP4 and upload to S3
 
 ```sh
 node bbb-mp4 MEETING_ID
 ```
 
-**Options**
+### Options
 
 1) MEETING_ID is the internal meeting id of the recording that you want to convert into MP4. 
 2) The MP4 file of the given meeting id is kept in mp4 directory
 3) The command above will record meeting in webm format, convert to MP4 and upload to S3. 
 
-### MP4 Meetings in Bulk
+## MP4 Meetings in Bulk
 
 ```sh
 apt-get install parallel
@@ -75,7 +75,7 @@ aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
 6) By default, parallel will execute as many number of jobs as the number of CPU Cores. Keep -j as 0 so that parallel can execute as many jobs as needed in parallel
 7) To ensure that all MP4 files are uploaded to S3, you can also sync-up mp4 files in video directory to to AWS S3 bucket:  aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
 
-### Automate MP4 Conversion
+## Automate MP4 Conversion
 
 ```sh
 apt-get install supervisor
@@ -91,48 +91,7 @@ tail -f /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
 3) Inform Supervisor of our new program through the supervisorctl command. At this point our program should now be running to watch for any new meetings and we can check this is the case by looking at the output log file: /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
 4) You can test whether watch is working using the test script - watch-recording-bbb-mp4-test.sh - update DIRECTORY_TO_TEST and TEST_MEETING_ID as appropriate
 
-### Live recording
-
-You can also use `liveJoin.js` to live join meeting as a recorder & perform recording like this:
-
-```sh
-node liveJoin.js "https://BBB_HOST/bigbluebutton/api/join?meetingId=MEETING_ID...." liveRecord.webm 0 true
-```
-Here `0` mean no limit. Recording will auto stop after meeting end or kickout of recorder user. You can also set time limit like this:
-
-```sh
-node liveJoin.js "https://BBB_HOST/bigbluebutton/api/join?meetingId=MEETING_ID...." liveRecord.webm 60 true
-```
-
-### Live RTMP broadcasting
-
-Sometime you may want to broadcast meeting via RTMP. To test you can use `ffmpegServer.js` to run websocket server & `liveRTMP.js` to join the meeting. You'll have to edit `rtmpUrl` & `ffmpegServer` info inside `.env` file (if need).
-
-
-1) First run websocket server by `node ffmpegServer.js`
-2) Then in another terminal tab
-
-```sh
-node liveRTMP.js "https://BBB_HOST/bigbluebutton/api/join?meetingId=MEETING_ID...."
-```
-You can also set duration otherwise it will close after meeting end or kickout:
-
-```sh
-node liveRTMP.js "https://BBB_HOST/bigbluebutton/api/join?meetingId=MEETING_ID...." 20
-```
-
-Check the process of websocket server, `ffmpeg` should start sending data to RTMP server.
-
-Alternatively, you can stream via a docker container:
-
-```
-# copy compose file, update the environment params and the meeting join url
-cp docker-compose.yml.livertmp-stream-example docker-compose.yml
-docker-compose build
-docker-compose up
-```
-
-### How it will work?
+## How it will work?
 When you will run the command that time `Chrome` browser will be open in background & visit the link to perform screen recording in WEBM formar. After compeltion of recording, we use FFMEG to convert to MP4 and use AWS CLI3 to upload to S3.
 
 **Note: It will use extra CPU to process chrome & ffmpeg.**
