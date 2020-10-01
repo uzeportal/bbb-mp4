@@ -59,7 +59,24 @@ node bbb-mp4 MEETING_ID
 2) The MP4 file of the given meeting id is kept in mp4 directory
 3) The command above will record meeting in webm format, convert to MP4 and upload to S3. 
 
-## MP4 Meetings in Bulk
+## Convert MP4 in Bulk
+
+```sh
+apt-get install parallel
+```
+
+We use [GNU Parallel](https://www.gnu.org/software/parallel/) to convert multiple MP4 recordings simultaneously. So Install GNU Paralle.  
+
+You have the following two methods:
+
+### Method 1: Convert MP4 from recordings in /published/presentation/ directory
+
+This method is useful when you are running bbb-mp4 on BigBlueButton or Scalelite server. You can set from and to date to convert into MP4 recordings from the given date range.
+
+Open file bbb-mp4-bulk-parallel.sh and verify from date, to date and recordings directory, which will be different for BigBlueButton and Scalelite. 
+ 
+
+### Option 2: Convert MP4 from recording Ids mentioned in a file 
 
 ```sh
 apt-get install parallel
