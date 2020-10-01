@@ -1,6 +1,6 @@
 # bbb-mp4
 
-This app convert a BigBlueButton recording into MP4 video and upload to S3.
+This app converts a BigBlueButton recording into MP4 video and upload to S3.
 
 We have implemented several different ways to convert MP4 videos:
 1. Convert one file at a time by executing `node bbb-mp4 MEETING_ID`
