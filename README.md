@@ -6,7 +6,7 @@ We have implemented several different ways to convert MP4 videos:
 1. Convert one file at a time by executing `node bbb-mp4 MEETING_ID`
 2. Convert in bulk from recording directory by executing `./bbb-mp4-bulk-parallel.sh`
 3. Convert in bulk from the given recording ids in a file by executing `./bbb-mp4-bulk-parallel-input-file.sh`
-4. Convert automatically as soon as recording is published. Follow the instructuin here to [setup supervisor](https://github.com/manishkatyan/bbb-mp4#automate-mp4-conversion).
+4. Convert automatically as soon as recording is published. Follow the instructions to [setup supervisor](https://github.com/manishkatyan/bbb-mp4#automate-mp4-conversion).
 
 **How it works?**
 
@@ -151,17 +151,6 @@ When you will run the command that time `Chrome` browser will be open in backgro
 
 **Note: It will use extra CPU to process chrome & ffmpeg.**
 
-
-
-#### Thanks to
-
-[puppetcam](https://github.com/muralikg/puppetcam)
-
-[Canvas-Streaming-Example](https://github.com/fbsamples/Canvas-Streaming-Example)
-
-[bbb-recorder](https://github.com/jibon57/bbb-recorder)
-
-
 ## More on BigBlueButton
 
 Check-out the following projects to further extend features of BBB.
@@ -178,3 +167,12 @@ Keep all customizations of BigBlueButton server in apply-config.sh so that (1) a
 
 Everything you need to know about BigBlueButton including pricing, comparison with Zoom, Moodle integrations, scaling, and dozens of troubleshooting.
 
+#### Inspired by
+
+This projects builds on the ideas from several other projects, especially:
+
+[puppetcam](https://github.com/muralikg/puppetcam)
+
+[Canvas-Streaming-Example](https://github.com/fbsamples/Canvas-Streaming-Example)
+
+[bbb-recorder](https://github.com/jibon57/bbb-recorder)
