@@ -146,10 +146,6 @@ tail -f /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
 3) Inform Supervisor of our new program through the supervisorctl command. At this point our program should now be running to watch for any new meetings and we can check this is the case by looking at the output log file: /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
 4) You can test whether watch is working using the test script - watch-recording-bbb-mp4-test.sh - update DIRECTORY_TO_TEST and TEST_MEETING_ID as appropriate
 
-## How it will work?
-When you will run the command that time `Chrome` browser will be open in background & visit the link to perform screen recording in WEBM formar. After compeltion of recording, we use FFMEG to convert to MP4 and use AWS CLI3 to upload to S3.
-
-**Note: It will use extra CPU to process chrome & ffmpeg.**
 
 ## More on BigBlueButton
 
