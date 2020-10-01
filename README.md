@@ -164,7 +164,7 @@ Integrate Twilio into BigBlueButton so that users can join a meeting with a dial
 
 Keep all customizations of BigBlueButton server in apply-config.sh so that (1) all your BBB servers have same customizations without any errors, and (2) you don't lose them while upgrading.
 
-[**100 most Googled Questions on BigBlueButton**](https://higheredlab.com/bigbluebutton-guide/)
+[**100 Most Googled Questions on BigBlueButton**](https://higheredlab.com/bigbluebutton-guide/)
 
 Everything you need to know about BigBlueButton including pricing, comparison with Zoom, Moodle integrations, scaling, and dozens of troubleshooting.
 
