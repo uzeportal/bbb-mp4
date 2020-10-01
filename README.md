@@ -100,8 +100,8 @@ Once you are ready, execute bbb-mp4-bulk-parallel.sh.
 
 ```sh
 find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-unprocessed-recordings.txt
+
 ./bbb-mp4-bulk-parallel-input-file.sh
-parallel -j 0 -a bbb-target-recordings.txt node bbb-mp4
 ```
 
 This method is useful when you want to convert a list of recordings. For example, some recordings failed to get converted in the method 1 above and you want to convert only those recordings. Another example, you want to run MP4 conversion process on a different server - not on BigBlueButton or Scalelite server. 
