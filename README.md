@@ -71,12 +71,18 @@ You have the following two methods:
 
 ### Method 1: Convert MP4 from recordings in /published/presentation/ directory
 
+```sh
+./bbb-mp4-bulk-parallel.sh
+```
+
 This method is useful when you are running bbb-mp4 on BigBlueButton or Scalelite server. You can set from and to date to convert into MP4 recordings from the given date range.
 
 Open file bbb-mp4-bulk-parallel.sh and verify from date, to date and recordings directory, which will be different for BigBlueButton and Scalelite. 
+
+Once you are ready, execute bbb-mp4-bulk-parallel.sh.
  
 
-### Option 2: Convert MP4 from recording Ids mentioned in a file 
+### Method 2: Convert MP4 from recording Ids listed in a file 
 
 ```sh
 apt-get install parallel
