@@ -169,7 +169,7 @@ Everything you need to know about BigBlueButton including pricing, comparison wi
 
 #### Inspired by
 
-This projects builds on the ideas from several other projects, especially:
+bbb-mp4 project builds on the ideas from several other projects, especially:
 
 [puppetcam](https://github.com/muralikg/puppetcam)
 
