@@ -1,7 +1,7 @@
 {
-  "name": "bbbrecorder",
-  "version": "0.0.1",
-  "description": "Capture BBB recording & export as a video",
+  "name": "bbb-mp4",
+  "version": "0.9.0",
+  "description": "Capture BBB recording as MP4 and upload to AWS S3",
   "scripts": {
     "example": "node export.js \"https://BBB_HOST/playback/presentation/2.0/playback.html?meetingId=MEETING_ID\" meeting.webm 10 true"
   },
