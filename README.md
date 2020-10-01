@@ -65,7 +65,11 @@ node bbb-mp4 MEETING_ID
 apt-get install parallel
 ```
 
-We use [GNU Parallel](https://www.gnu.org/software/parallel/) to convert multiple MP4 recordings simultaneously. So Install GNU Paralle.  
+We use [GNU Parallel](https://www.gnu.org/software/parallel/) to convert multiple MP4 recordings simultaneously. So Install GNU Parallel.  
+
+We will run 2 jobs simultaneously using Parallel that will pass recording-id to node bbb-mp4 to convert into MP4. Once any of the two jobs are completed, Parallel will pass the next recording-id to node bbb-mp4 to convert.
+
+One word of caution: Running 6-8 jobs in parallel may result in Xvfb through errors (unable to stop Xvfb). To be on a safer side, I prefer running two jobs in parallel.  
 
 You have the following two methods:
 
@@ -85,18 +89,36 @@ Once you are ready, execute bbb-mp4-bulk-parallel.sh.
 ### Method 2: Convert MP4 from recording Ids listed in a file 
 
 ```sh
-apt-get install parallel
-find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
+find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-unprocessed-recordings.txt
+./bbb-mp4-bulk-parallel-input-file.sh
 parallel -j 0 -a bbb-target-recordings.txt node bbb-mp4
-aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
 ```
 
-1) Install GNU Parallel: $sudo apt-get install parallel
-2) Create a file bbb-target-recordings.txt meeting ids of the recordigs that you want to convert into MP4. Here is one way to create list of meetings on 22 Sep that is to be converted into MP4: find /var/bigbluebutton/published/presentation -maxdepth 1 -newerct "22 Sep 2020" ! -newerct "23 Sep 2020" -printf "%f\n" > bbb-target-recordings.txt
-4) In case you are using Scalelite, change presentation directory to /mnt/scalelite-recordings/var/bigbluebutton/published/presentation/ in the find command above
-5) Now execute parallel command to convert in bulk: parallel -j 0 -a bbb-target-recordings.txt node bbb-mp4 
-6) By default, parallel will execute as many number of jobs as the number of CPU Cores. Keep -j as 0 so that parallel can execute as many jobs as needed in parallel
-7) To ensure that all MP4 files are uploaded to S3, you can also sync-up mp4 files in video directory to to AWS S3 bucket:  aws s3 sync video/ s3://S3_BUCKET_NAME  --acl public-read
+This method is useful when you want to convert a list of recordings. For example, some recordings failed to get converted in the method 1 above and you want to convert only those recordings. Another example, you want to run MP4 conversion process on a different server - not on BigBlueButton or Scalelite server. 
+
+You need to prepare a list of recordings that you want to convert into MP4. For example you could use find command to create list of meetings on 22 Sep that is to be converted into MP4 as shown above. 
+
+Execute bbb-mp4-bulk-parallel-input-file.sh to start MP4 conversion with 2 jobs in parallel.
+
+## Upload to AWS S3
+
+```sh
+aws s3 sync mp4/ s3://S3_BUCKET_NAME  --acl public-read
+```
+
+In stead of upload files one at a time, use aws s3 sync to upload MP4 files which have not been uploaded already to your AWS S3 bucket. 
+
+### Verify MP4 sync to AWS S3
+
+```sh
+aws s3 sync mp4/ s3://S3_BUCKET_NAME  --acl public-read
+```
+
+At times, you may not be sure which recordings are not converted to MP4 yet. 
+
+Put all the recordings that you want to verify into bbb-unprocessed-recordings.txt and execute s3-verify-recordings.sh. This script will check whether the recordings mentioned in bbb-unprocessed-recordings.txt are uploaded to S3. It will update bbb-unprocessed-recordings.txt with the recordings which are not already present on AWS S3.  
+
+Now you can follow Method 2 above to convert recordings mentioned in the updated bbb-unprocessed-recordings.txt file. 
 
 ## Automate MP4 Conversion
 
