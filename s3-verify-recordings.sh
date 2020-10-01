@@ -21,3 +21,5 @@ echo "Updating unprocessed file with recordings not processed yet";
 mv "$unprocessedfilename.t" "$unprocessedfilename"
 
 echo "Updated unprocessed recordings ready to be processed. Run bbb-mp4-bulk-parallel-input-file.sh";
+
+rm "$processedfilename"
