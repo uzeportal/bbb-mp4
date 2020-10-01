@@ -79,7 +79,9 @@ We use [GNU Parallel](https://www.gnu.org/software/parallel/) to convert multipl
 
 We will run 2 jobs simultaneously using Parallel that will pass recording-id to node bbb-mp4 to convert into MP4. Once any of the two jobs are completed, Parallel will pass the next recording-id to `node bbb-mp4` to convert.
 
-One word of caution: Running 6-8 jobs in parallel may result in Xvfb through errors (unable to stop Xvfb). To be on a safer side, I prefer running two jobs in parallel.  
+**Pro Tips** 
+- Running 6-8 jobs in parallel may result in Xvfb through errors (unable to stop Xvfb). To be on a safer side, I prefer running two jobs in parallel.  
+- Keep an eye on zombie process for XVFB or Google Chrome when you run bulk processing of MP4 for some time. If you start seeing odd behaviors such recordings taking way too long to process or parallel or node process not running when you check `ps aux | grep parallel` or `ps aux | grep node`, then you may restart your server.  
 
 You have the following two methods:
 
