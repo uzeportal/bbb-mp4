@@ -108,7 +108,7 @@ aws s3 sync mp4/ s3://S3_BUCKET_NAME  --acl public-read
 
 In stead of uploading files one at a time, use aws s3 sync to upload MP4 files which have not been uploaded already to your AWS S3 bucket. 
 
-### Verify MP4 sync to AWS S3
+### Verify MP4 videos on AWS S3
 
 ```sh
 aws s3 sync mp4/ s3://S3_BUCKET_NAME  --acl public-read
