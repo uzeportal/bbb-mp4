@@ -12,7 +12,7 @@ We have implemented several different ways to convert MP4 videos:
 
 When you execute `node bbb-mp4`, Chrome browser is opened in the background with the BigBlueButton playback URL in a Virtual Screen Buffer, the recording is played and the screen is recorded WEBM format. After compeltion of recording, FFMEG is used to convert to MP4 and AWS CLI is used to upload to S3.
 
-## Dependencies
+## Install
 
 1. Install XVFB
 ```sh
