@@ -39,6 +39,7 @@ sudo apt-get install ffmpeg
 ```sh
 git clone https://github.com/manishkatyan/bbb-mp4.git4
 cd bbb-mp4
+apt install npm
 npm install --ignore-scripts
 cp .env.example .env
 ./dependencies_check.sh
