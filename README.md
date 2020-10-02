@@ -14,12 +14,12 @@ When you execute `node bbb-mp4`, Chrome browser is opened in the background with
 
 ## Dependencies
 
-1. xvfb (`apt install xvfb`)
-2. Google Chrome stable
-3. npm modules listed in package.json
-4. Everything inside `dependencies_check.sh` (run `./dependencies_check.sh` to install all)
+1. Install XVFB
+```sh
+apt install xvfb
+```
 
-The latest Google Chrome stable build should be use.
+2. Install latest Google Chrome:
 
 ```sh
 curl -sS -o - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add
@@ -28,11 +28,16 @@ apt-get -y update
 apt-get -y install google-chrome-stable
 ```
 
-FFmpeg (if not installed already & have plan for mp4 or RTMP)
+3. Install FFmpeg:
 ```sh
 sudo add-apt-repository ppa:jonathonf/ffmpeg-4
 sudo apt-get update
 sudo apt-get install ffmpeg
+```
+
+4. NPM modules and everything else need
+```sh
+./dependencies_check.sh
 ```
 
 ## Usage
@@ -80,8 +85,8 @@ We use [GNU Parallel](https://www.gnu.org/software/parallel/) to convert multipl
 We will run 2 jobs simultaneously using Parallel that will pass recording-id to node bbb-mp4 to convert into MP4. Once any of the two jobs are completed, Parallel will pass the next recording-id to `node bbb-mp4` to convert.
 
 **Pro Tips** 
-- Running 6-8 jobs in parallel may result in Xvfb through errors (unable to stop Xvfb). To be on a safer side, I prefer running two jobs in parallel.  
-- Keep an eye on zombie process for XVFB or Google Chrome when you run bulk processing of MP4 for some time. If you start seeing odd behaviors such recordings taking way too long to process or parallel or node process not running when you check `ps aux | grep parallel` or `ps aux | grep node`, then you may restart your server.  
+- Running 6 or more jobs in parallel may result errors such as unable to stop Xvfb. To be on a safer side, I prefer running 2-3 jobs in parallel.
+- When you execute `ps aux | grep parallel` or `ps aux | grep node` and notice TTY column showing `?`, most likely that process has hanged. Better to just kill that process with 'kill -9 PROCESS-ID` and start over again.   
 
 You have the following two methods:
 
