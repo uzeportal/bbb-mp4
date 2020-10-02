@@ -61,11 +61,6 @@ Update .env file:
 3) `copyToPath` is where MP4 files are kept
 4) `S3BucketName` is the bucket name of S3. Default file permission is `--acl public-read`. You can change permission in `bbb-mp4.js > uploadToS3`
 
-Setup AWS CLI to upload to S3
-1) Install [AWS CLI Version 2](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
-2) Configure AWS with this command: `aws configure`
-3) If needed, get S3 region name code from [here](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region)
-
 ## Record Meetings in MP4 and upload to S3
 
 ```sh
