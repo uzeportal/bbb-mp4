@@ -35,21 +35,16 @@ sudo apt-get update
 sudo apt-get install ffmpeg
 ```
 
-4. NPM modules and everything else need
+4. Clone bbb-mp4, install NPM modules and execute what `./dependencies_check.sh` tells you to 
 ```sh
+git clone https://github.com/manishkatyan/bbb-mp4.git4
+cd bbb-mp4
+npm install --ignore-scripts
+cp .env.example .env
 ./dependencies_check.sh
 ```
 
 ## Usage
-
-Clone the project first:
-
-```javascript
-git clone https://github.com/manishkatyan/bbb-mp4.git
-cd bbb-mp4
-npm install --ignore-scripts
-cp .env.example .env
-```
 
 Update .env file:
 1) playBackURL is `https://<domain>/playback/presentation/2.0/playback.html?meetingId=xxxx` for default playback of BBB 2.2.x or `https://<domain>/playback/presentation/2.3/xxxx` if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback) that would be part of BBB 2.3
