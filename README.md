@@ -163,7 +163,7 @@ Integrate Twilio into BigBlueButton so that users can join a meeting with a dial
 
 ### [bbb-customize](https://github.com/manishkatyan/bbb-customize)
 
-Keep all customizations of BigBlueButton server in apply-config.sh so that (1) all your BBB servers have same customizations without any errors, and (2) you don't lose them while upgrading.
+Better audio quality, increase recording processing speed, dynamic video profile, pagination, fix 1007/1020 errors and use apply-config.sh to manage your customizations are some key techniques for you to optimize and smoothly run your BigBlueButton servers.
 
 ### [100 Most Googled Questions on BigBlueButton](https://higheredlab.com/bigbluebutton-guide/)
 
