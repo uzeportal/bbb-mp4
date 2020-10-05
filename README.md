@@ -35,7 +35,13 @@ sudo apt-get update
 sudo apt-get install ffmpeg
 ```
 
-4. Setup [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Be ready with your AWS Access Key ID, Secret Access Key, [Default region name](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region), Default output format (json) and enter when asked upon executing `aws configure`.
+4. Install latest version of node
+```sh
+curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+5. Setup [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html). Be ready with your AWS Access Key ID, Secret Access Key, [Default region name](https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region), Default output format (json) and enter when asked upon executing `aws configure`.
 ```sh
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
@@ -43,7 +49,7 @@ unzip awscliv2.zip
 aws configure
 ```
 
-5. Clone bbb-mp4, install NPM modules and execute what `./dependencies_check.sh` tells you to 
+6. Clone bbb-mp4, install NPM modules and execute what `./dependencies_check.sh` tells you to 
 ```sh
 git clone https://github.com/manishkatyan/bbb-mp4.git4
 cd bbb-mp4
