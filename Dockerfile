@@ -20,6 +20,6 @@ RUN add-apt-repository ppa:jonathonf/ffmpeg-4
 #RUN apt-get -y update
 RUN apt-get -y install ffmpeg
 RUN apt -y install xvfb
-RUN git clone https://github.com/jibon57/bbb-recorder
-RUN cd bbb-recorder && npm install --ignore-scripts
-WORKDIR /root/bbb-recorder
+RUN git clone https://github.com/manishkatyan/bbb-mp4
+RUN cd bbb-mp4 && npm install --ignore-scripts
+WORKDIR /root/bbb-mp4
