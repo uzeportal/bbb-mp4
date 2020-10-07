@@ -23,4 +23,4 @@ TOTAL_UNPROCESSED_RECRODINGS=$(cat "$filename" | wc -l)
 echo "Unprocessed recordings the last $NUM_DAYS day: $TOTAL_UNPROCESSED_RECRODINGS"
 
 echo "Starting MP4 conversion using GNU Parallel"
-#parallel -j 3 --timeout 300% --joblog log/parallel_mp4.log -a "$filename" node bbb-mp4
+parallel -j 3 --timeout 300% --joblog log/parallel_mp4.log -a "$filename" node bbb-mp4 &
