@@ -1,7 +1,7 @@
 #!/bin/bash
 
 S3_BUCKET_NAME='s3://slate-recording'
-NUM_DAYS=7
+NUM_DAYS=3
 
 #File where unprocessed recordings will be added. We will convert these recordings into MP4.
 filename='bbb-unprocessed-recordings.txt'
@@ -22,5 +22,10 @@ echo "Removing files which are already synced with S3"
 TOTAL_UNPROCESSED_RECRODINGS=$(cat "$filename" | wc -l)
 echo "Unprocessed recordings the last $NUM_DAYS day: $TOTAL_UNPROCESSED_RECRODINGS"
 
-echo "Starting MP4 conversion using GNU Parallel"
-parallel -j 3 --timeout 300% --joblog log/parallel_mp4.log -a "$filename" node bbb-mp4 &
+if [ $TOTAL_UNPROCESSED_RECRODINGS > 0 ]; then
+  echo "All recordings completed"
+  exit 1
+else   
+  echo "Starting MP4 conversion using GNU Parallel"
+  parallel -j 3 --timeout 300% --joblog log/parallel_mp4.log -a "$filename" node bbb-mp4 &
+fi  
