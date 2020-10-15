@@ -22,7 +22,7 @@ echo "Removing files which are already synced with S3"
 TOTAL_UNPROCESSED_RECRODINGS=$(cat "$filename" | wc -l)
 echo "Unprocessed recordings the last $NUM_DAYS day: $TOTAL_UNPROCESSED_RECRODINGS"
 
-if [ $TOTAL_UNPROCESSED_RECRODINGS > 0 ]; then
+if [ $TOTAL_UNPROCESSED_RECRODINGS -eq 0 ]; then
   echo "All recordings completed"
   exit 1
 else   
