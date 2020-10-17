@@ -62,10 +62,11 @@ cp .env.example .env
 ## Usage
 
 Update .env file:
-1) playBackURL is `https://<domain>/playback/presentation/2.0/playback.html?meetingId=xxxx` for default playback of BBB 2.2.x or `https://<domain>/playback/presentation/2.3/xxxx` if you are using [bbb-playback](https://github.com/bigbluebutton/bbb-playback) that would be part of BBB 2.3
+1) playBackURL is `https://<domain>/playback/presentation/2.0/playback.html?meetingId=xxxx` for default playback of BBB 2.2.x
 2) By default Chrome downloads meeting recording in `Downloads` direcotry of the user or `/tmp`, when executed in the background. Hence, we explicetly set `copyFromPath` i.e. download location of the recording so that bbb-mp4 can correctly read the downloaded file and proceed with conversion into MP4   
-3) `copyToPath` is where MP4 files are kept
+3) `copyToPath` is where MP4 files are kept. By default we store it at `bbb-mp4/mp4`. You can change it to '/var/www/bigbluebutton-default/recording/` to make your MP4 recordings accessible on your BigBlueButton server with the url as `https://<domain>/recording/MEETING_ID.mp4`
 4) `S3BucketName` is the bucket name of S3. Default file permission is `--acl public-read`. You can change permission in `bbb-mp4.js > uploadToS3`
+5) `recordingDir` is where recordings of the meetings are kept by BigBlueButton. If you run this project on your BigBlueButton server, then this value would be `/var/bigbluebutton/published/presentation/`. If you run this project on Scalelite server to convert all recordings on Scalelite into MP4, this value would be `/mnt/scalelite-recordings/var/bigbluebutton/published/resentation`.
 
 ## Record Meetings in MP4 and upload to S3
 
