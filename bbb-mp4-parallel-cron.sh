@@ -1,14 +1,14 @@
 #!/bin/bash
 
 S3_BUCKET_NAME='s3://slate-recording'
-NUM_DAYS=3
+NUM_DAYS=15
 
 #File where unprocessed recordings will be added. We will convert these recordings into MP4.
 filename='bbb-unprocessed-recordings.txt'
 #Ensure that the file exists and is empty
 :> "$filename"
 
-find /mnt/scalelite-recordings/var/bigbluebutton/published/presentation/ -maxdepth 1 -mtime -"$NUM_DAYS" -printf "%f\n" | egrep '[a-z0-9]*-[0-9]*' > "$filename"
+find /var/bigbluebutton/published/presentation/ -maxdepth 1 -mtime -"$NUM_DAYS" -printf "%f\n" | egrep '[a-z0-9]*-[0-9]*' > "$filename"
 
 TOTAL_RECRODINGS=$(cat "$filename" | wc -l)
 echo "Total recordings the last $NUM_DAYS day: $TOTAL_RECRODINGS"
@@ -25,7 +25,11 @@ echo "Unprocessed recordings the last $NUM_DAYS day: $TOTAL_UNPROCESSED_RECRODIN
 if [ $TOTAL_UNPROCESSED_RECRODINGS -eq 0 ]; then
   echo "All recordings completed"
   exit 1
-else   
+else
+  echo "Killing existing parallel prcoess"
+  ps aux | grep [p]arallel | awk '{ print $2 }' | xargs kill -9
+  sleep 5
+   
   echo "Starting MP4 conversion using GNU Parallel"
   parallel -j 3 --timeout 300% --joblog log/parallel_mp4.log -a "$filename" node bbb-mp4 &
 fi  

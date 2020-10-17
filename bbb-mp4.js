@@ -197,7 +197,7 @@ function convertAndCopy(filename){
             fs.rmdirSync(copyFromPathForRecording, { recursive: true });		
             console.log('successfully deleted ' + copyFromPathForRecording);
 
-            //uploadToS3(copyTo);
+            uploadToS3(copyTo);
 	    //console.log("Manually sync to S3");
         }
 
