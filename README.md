@@ -51,7 +51,7 @@ aws configure
 
 6. Clone bbb-mp4, install NPM modules and execute what `./dependencies_check.sh` tells you to 
 ```sh
-git clone https://github.com/manishkatyan/bbb-mp4.git4
+git clone https://github.com/manishkatyan/bbb-mp4.git
 cd bbb-mp4
 apt install npm
 npm install --ignore-scripts
