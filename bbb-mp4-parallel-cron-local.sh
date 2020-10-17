@@ -53,11 +53,7 @@ then
   exit 1
 else
 
-  echo "Killing existing parallel prcoess"
-  ps aux | grep [p]arallel | awk '{ print $2 }' | xargs kill -9
-  sleep 5
-  
   echo "Starting MP4 conversion using GNU Parallel"
-  parallel -j 3 --timeout 200% --joblog log/parallel_mp4.log -a "$UNPROCESSED_FILENAME" node bbb-mp4 &
+  parallel -j 3 --timeout 300% --joblog log/parallel_mp4.log -a "$UNPROCESSED_FILENAME" node bbb-mp4 &
 fi
 
