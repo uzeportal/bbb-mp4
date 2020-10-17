@@ -52,12 +52,11 @@ then
   echo "All recordings completed"
   exit 1
 else
-  #echo "Sending TERM signal to parallel, if already running, so that it doesn't start any new job and exists after current running jobs finish"
-  #pkill parallel
 
   echo "Killing existing parallel prcoess"
-  pkill parallel
-
+  ps aux | grep [p]arallel | awk '{ print $2 }' | xargs kill -9
+  sleep 5
+  
   echo "Starting MP4 conversion using GNU Parallel"
   parallel -j 3 --timeout 200% --joblog log/parallel_mp4.log -a "$UNPROCESSED_FILENAME" node bbb-mp4 &
 fi
