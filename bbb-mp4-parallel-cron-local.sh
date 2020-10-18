@@ -53,6 +53,8 @@ then
   exit 1
 else
 
+  pgrep -f "/usr/bin/parallel" | xargs kill -9
+
   echo "Starting MP4 conversion using GNU Parallel"
   parallel -j 3 --timeout 300% --joblog log/parallel_mp4.log -a "$UNPROCESSED_FILENAME" node bbb-mp4 &
 fi
