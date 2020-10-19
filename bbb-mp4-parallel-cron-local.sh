@@ -53,9 +53,9 @@ then
   exit 1
 else
 
-  pgrep -f "/usr/bin/parallel" | xargs kill -9
+  pgrep -f "/usr/bin/parallel" && echo "Parallel already running. Exiting." && exit 1
 
   echo "Starting MP4 conversion using GNU Parallel"
-  parallel -j 3 --timeout 300% --joblog log/parallel_mp4.log -a "$UNPROCESSED_FILENAME" node bbb-mp4 &
+  parallel -j 2 --timeout 200% --joblog log/parallel_mp4.log -a "$UNPROCESSED_FILENAME" node bbb-mp4 &
 fi
 

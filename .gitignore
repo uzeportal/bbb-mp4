@@ -9,6 +9,7 @@ config.json
 unprocessed-recordings-local.txt
 bbb-unprocessed-recordings.txt
 t.sh
+x.sh
 log/
 mp4/
 download/
