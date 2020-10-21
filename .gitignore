@@ -6,8 +6,8 @@ config.json
 .project
 .settings
 .env
-unprocessed-recordings-local.txt
-bbb-unprocessed-recordings.txt
+*.txt
+*.log
 t.sh
 log/
 mp4/
