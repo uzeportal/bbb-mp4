@@ -9,6 +9,7 @@ config.json
 *.txt
 *.log
 t.sh
+x.sh
 log/
 mp4/
 download/
