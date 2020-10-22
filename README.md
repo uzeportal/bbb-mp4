@@ -147,6 +147,7 @@ Now you can follow Method 2 above to convert recordings mentioned in the updated
 
 ```sh
 apt-get install supervisor
+apt-get install inotify-tools
 service supervisor restart
 cp watch-recording-bbb-mp4.conf /etc/supervisor/conf.d/watch-recording-bbb-mp4.conf
 supervisorctl reread
