@@ -1,14 +1,15 @@
 #!/bin/bash
 
+. ./.env
+
+echo "recordingDir: $recordingDir"
 
 echo "Watching New BBB Meetings"
 echo `date`
 
-#Published directory to observe for when a meeting is published.
-#For BigBlueButton single instance, change this to /var/bigbluebutton/published/presentaation
-DIRECTORY_TO_OBSERVE="/mnt/scalelite-recordings/var/bigbluebutton/published/presentation"
+DIRECTORY_TO_OBSERVE="$recordingDir"
 #Directory where bbb-mp4 is installed
-DIRECTORY_BBB_MP4="/root/bbb-mp4"
+DIRECTORY_BBB_MP4="$BBBMP4Dir"
 
 watch() {
 
