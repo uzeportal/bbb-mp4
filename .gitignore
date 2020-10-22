@@ -6,10 +6,11 @@ config.json
 .project
 .settings
 .env
-unprocessed-recordings-local.txt
-bbb-unprocessed-recordings.txt
+*.txt
+*.log
 t.sh
 x.sh
+watch-recording-bbb-mp4-test.sh
 log/
 mp4/
 download/
