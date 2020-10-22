@@ -22,7 +22,7 @@ watch() {
 
 convert_mp4() {
     # Absolute path to node - execute command "which node" to find out
-    cd $DIRECTORY_BBB_MP4 && /usr/bin/node bbb-mp4.js $1 
+    cd $DIRECTORY_BBB_MP4 && nohup /usr/bin/node bbb-mp4.js $1 > "log/$1.log" 2>&1 &
 
 }
 
