@@ -44,5 +44,6 @@ mv "$unprocessedfilename_temp" "$unprocessedfilename"
 echo "New recordings yet to be processed into MP4: "
 cat $unprocessedfilename | wc -l
 
-#rm "$processedfilename"
-#rm "$unprocessedfilename"
+#Delete processing files
+rm "$processedfilename"
+rm "$unprocessedfilename"
