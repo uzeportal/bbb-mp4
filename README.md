@@ -163,7 +163,7 @@ tail -f /root/bbb-mp4/log/watch-recording-bbb-mp4.out.log
 
 ## More on BigBlueButton
 
-Check-out the following projects to further extend features of BBB.
+Check-out the following apps to further extend features of BBB.
 
 ### [bbb-twilio](https://github.com/manishkatyan/bbb-twilio)
 
