@@ -12,12 +12,18 @@ find /var/bigbluebutton/recording/raw/ -maxdepth 1 -mtime -15 -printf "%f\n" | e
 
 while read meeting; do
   events_xml="/var/bigbluebutton/recording/raw/$meeting/events.xml"
-  result=`xmlstarlet sel -t -v '//recording/event[@eventname="RecordStatusEvent"]/status' "$events_xml"`
-    
-  if [ -n "$result" ]; 
+
+  if [[ -f "$events_xml" ]]; 
   then
-    echo "$meeting" >> "$RECORDED_MEETINGS"
+    #Read events.xml and look for RecordStatusEvent as true, which means the meeting was recorded
+    result=`xmlstarlet sel -t -v '//recording/event[@eventname="RecordStatusEvent"]/status' "$events_xml"`
+    
+    if [ -n "$result" ]; 
+    then
+      echo "$meeting" >> "$RECORDED_MEETINGS"
+    fi
   fi
+
 
 done < $MEETINGS
 rm "$MEETINGS"
@@ -44,5 +50,5 @@ done < $RECORDED_MEETINGS
 
 mv "$RECORDED_MEETINGS_TEMP" "$RECORDED_MEETINGS"
 
-echo "Rebuilding recording using GNU Parallel"
-parallel -j 6 --timeout 200% --joblog log/parallel_rebuild.log -a "$RECORDED_MEETINGS" bbb-record --rebuild &
+#echo "Rebuilding recording using GNU Parallel"
+#parallel -j 6 --timeout 200% --joblog log/parallel_rebuild.log -a "$RECORDED_MEETINGS" bbb-record --rebuild &
