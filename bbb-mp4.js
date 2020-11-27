@@ -4,7 +4,7 @@ const fs = require('fs');
 const os = require('os');
 const homedir = os.homedir();
 const platform = os.platform();
-const { copyToPath, copyFromPath, playBackURL, S3BucketName } = require('./env');
+const { copyToPath, copyFromPath, playBackURL, S3BucketName, uploadMP4ToS3 } = require('./env');
 const spawn = require('child_process').spawn;
 //Required to find the latest file (downloaded webm) in a directory
 const glob = require('glob');
@@ -197,8 +197,9 @@ function convertAndCopy(filename){
             fs.rmdirSync(copyFromPathForRecording, { recursive: true });		
             console.log('successfully deleted ' + copyFromPathForRecording);
 
-            uploadToS3(copyTo);
-	    //console.log("Manually sync to S3");
+	    if(uploadMP4ToS3 == "true") {
+                uploadToS3(copyTo);
+	    }
         }
 
     });
