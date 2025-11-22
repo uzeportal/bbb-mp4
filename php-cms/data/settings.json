@@ -1,0 +1,13 @@
+{
+  "site_name": "Zübeyir Kayahan Avukatlık Bürosu",
+  "tagline": "Sivas'ta kapsamlı hukuki danışmanlık ve dava takibi",
+  "address": "Cami-i Kebir Mah., Hoca Ahmet Yesevi Cad., No:24/2, Merkez Sivas",
+  "phone": "+90 532 772 64 66",
+  "whatsapp": "+90 532 772 64 66",
+  "email": "info@zkayahan.av.tr",
+  "map_embed": "https://www.google.com/maps?q=Cami-i%20Kebir%20Mah.,%20Hoca%20Ahmet%20Yesevi%20Cad.,%20No:24/2,%20Merkez%20Sivas&output=embed",
+  "meta_title": "Zübeyir Kayahan Avukatlık Bürosu — Sivas",
+  "meta_description": "Sivas merkezli hukuk bürosu; iş, ceza, aile ve ticaret hukukunda avukatlık, danışmanlık ve dava hizmetleri.",
+  "meta_keywords": "Sivas avukat, avukat, hukuk bürosu, danışmanlık",
+  "base_url": "http://localhost:8000"
+}

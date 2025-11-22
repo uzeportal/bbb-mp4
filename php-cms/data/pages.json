@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Ana Sayfa",
+    "slug": "ana-sayfa",
+    "content": "<h2>Zübeyir Kayahan Avukatlık Bürosu</h2><p>Sivas'ta müvekkillerimize iş hukuku, ceza hukuku, aile hukuku ve ticaret hukuku alanlarında danışmanlık ve dava takibi hizmeti sunuyoruz.</p><p><strong>Adres:</strong> Cami-i Kebir Mah., Hoca Ahmet Yesevi Cad., No:24/2, Merkez Sivas<br><strong>Telefon:</strong> +90 532 772 64 66<br><strong>WhatsApp:</strong> +90 532 772 64 66</p>",
+    "menu": true,
+    "meta_title": "Zübeyir Kayahan Avukatlık Bürosu — Ana Sayfa",
+    "meta_description": "Sivas merkezli Zübeyir Kayahan Avukatlık Bürosu; iş, ceza, aile ve ticaret hukuku alanlarında dava takibi ve danışmanlık sunar.",
+    "meta_keywords": "Sivas avukat, hukuk bürosu, iş hukuku, aile hukuku, ceza hukuku"
+  },
+  {
+    "title": "Hakkımızda",
+    "slug": "hakkimizda",
+    "content": "<p>Zübeyir Kayahan Avukatlık Bürosu, her dosyada şeffaf iletişimi ve stratejik dava yönetimini önceliklendiren bir yaklaşımla çalışır. Müvekkillerimizin haklarını korurken süreci anlaşılır kılmaya önem veriyoruz.</p>",
+    "menu": true,
+    "meta_title": "Zübeyir Kayahan Avukatlık Bürosu — Hakkımızda",
+    "meta_description": "Zübeyir Kayahan Avukatlık Bürosu ekibini, yaklaşımını ve önceliklerini tanıyın.",
+    "meta_keywords": "Zübeyir Kayahan, avukat, hukuk bürosu"
+  },
+  {
+    "title": "Çalışma Alanları",
+    "slug": "calisma-alanlari",
+    "content": "<ul><li>İş Hukuku</li><li>Aile Hukuku</li><li>Ceza Hukuku</li><li>Ticaret Hukuku</li><li>İcra ve İflas Hukuku</li></ul>",
+    "menu": true,
+    "meta_title": "Çalışma Alanları — Zübeyir Kayahan Avukatlık Bürosu",
+    "meta_description": "İş, aile, ceza, ticaret ve icra-iflas hukuku alanlarında sunduğumuz hizmetler.",
+    "meta_keywords": "iş hukuku, aile hukuku, ceza hukuku, icra iflas"
+  },
+  {
+    "title": "İletişim",
+    "slug": "iletisim",
+    "content": "<p>Bizimle dilediğiniz zaman iletişime geçebilirsiniz.</p><p><a href='tel:+905327726466'>Telefon: +90 532 772 64 66</a><br><a href='https://wa.me/905327726466'>WhatsApp: +90 532 772 64 66</a><br><a href='mailto:info@zkayahan.av.tr'>E-posta: info@zkayahan.av.tr</a></p><div class='map-wrap'><iframe src='https://www.google.com/maps?q=Cami-i%20Kebir%20Mah.,%20Hoca%20Ahmet%20Yesevi%20Cad.,%20No:24/2,%20Merkez%20Sivas&output=embed' loading='lazy' referrerpolicy='no-referrer-when-downgrade'></iframe></div>",
+    "menu": true,
+    "meta_title": "İletişim — Zübeyir Kayahan Avukatlık Bürosu",
+    "meta_description": "Adres, telefon, WhatsApp ve harita bilgileriyle Zübeyir Kayahan Avukatlık Bürosu iletişim sayfası.",
+    "meta_keywords": "iletişim, avukat, Sivas, telefon, whatsapp"
+  }
+]
