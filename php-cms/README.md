@@ -27,3 +27,28 @@ Bu klasör, sayfa eklenebilen ve tema yüklenebilen basit bir PHP tabanlı CMS i
 ## Notlar
 - `data/pages.json` dosyası yazılabilir olmalıdır.
 - Tema yükleme için `ZipArchive` eklentisi gerekir.
+
+## `hazir-cms` GitHub deposuna taşıma
+Yalnızca bu PHP CMS içeriğini yeni bir GitHub deposuna (ör. `hazir-cms`) aktarmak için aşağıdaki adımları uygulayabilirsiniz:
+
+1. Depo kökünden yeni bir klasöre sadece `php-cms` içeriğini kopyalayın:
+   ```sh
+   mkdir -p ../hazir-cms-export
+   rsync -av --progress php-cms/ ../hazir-cms-export/
+   ```
+2. Yeni klasörde git deposu başlatın ve uzak bağlantıyı ekleyin:
+   ```sh
+   cd ../hazir-cms-export
+   git init
+   git add .
+   git commit -m "Initial commit: PHP CMS"
+   git remote add origin git@github.com:<kullanici>/hazir-cms.git
+   # SSH yerine HTTPS kullanacaksanız:
+   # git remote add origin https://github.com/<kullanici>/hazir-cms.git
+   ```
+3. İlk push ile GitHub’daki boş `hazir-cms` deposuna gönderin:
+   ```sh
+   git push -u origin main
+   ```
+
+`main` yerine `master` veya farklı bir varsayılan dal kullanıyorsanız push komutundaki dal adını değiştirin. Bu adımlar, mevcut projeyi temiz bir şekilde ayrı bir GitHub deposuna taşımanızı sağlar.
